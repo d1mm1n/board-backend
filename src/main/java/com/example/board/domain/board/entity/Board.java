@@ -1,0 +1,40 @@
+package com.example.board.domain.board.entity;
+
+
+import com.example.board.domain.member.entity.Member;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 이거 추가해주면 알아서 매개변수 없는 생성자를 자동으로 만들어 줌, Protected로 해주면 jpa에서만 접근 가능
+public class Board {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="member_id") //데이터 베이스에서 스키마 생성할 때 컬럼명 뭘로 지정할꺼냐?
+    private Member member;
+
+    @Column(name="title",nullable = false)
+    private String title;
+
+    @CreatedDate //SQL에서 insert 할 때 알아서 insert 해줌
+    @Column(name="created_at",nullable = false)
+    private LocalDateTime createdAt;
+
+    @ColumnDefault("0") // view의 기본 값을 0으로 설정, 추론을 못해서 string 으로 작성해줘야함 -> "0" 이렇게
+    @Column(name="view",nullable = false)
+    private int view;
+
+    @Column(name="content",nullable = false)
+    private String content;
+
+
+}
