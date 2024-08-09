@@ -4,12 +4,13 @@ import com.example.board.domain.board.entity.Board;
 import com.example.board.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
-
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Recommend {
@@ -28,4 +29,10 @@ public class Recommend {
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private Status status;
+
+    public Recommend(Board board, Member member, Status status) {
+        this.board = board;
+        this.member = member;
+        this.status = status;
+    }
 }

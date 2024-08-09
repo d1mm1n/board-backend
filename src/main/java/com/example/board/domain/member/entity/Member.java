@@ -2,10 +2,13 @@ package com.example.board.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //IDENTITY라는 value 값을 알아서 생성해 주겠다!
@@ -36,5 +39,13 @@ public class Member {
     private String email;
 
 
-
+    public Member(String memberId, String password, String name, String call, Gender gender, String nickName, String email) {
+        this.memberId = memberId;
+        this.password = password;
+        this.name = name;
+        this.call = call;
+        this.gender = gender;
+        this.nickName = nickName;
+        this.email = email;
+    }
 }

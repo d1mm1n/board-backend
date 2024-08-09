@@ -5,11 +5,13 @@ import com.example.board.domain.board.entity.Board;
 import com.example.board.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
@@ -34,4 +36,9 @@ public class Comment {
     private LocalDateTime createdAt;
 
 
+    public Comment(Board board, Member member, String content) {
+        this.board = board;
+        this.member = member;
+        this.content = content;
+    }
 }
