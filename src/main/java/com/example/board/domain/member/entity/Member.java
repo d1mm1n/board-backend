@@ -16,7 +16,7 @@ public class Member {
     private Long id;
 
     //name은 테이블 에서 정한 변수명, nullable은 null을 허용하지 않아서 false로 설정
-    @Column(name="member_id",nullable=false)
+    @Column(name="member_id",nullable=false, unique=true)
     private String memberId;
 
     @Column(name="password",nullable=false)
