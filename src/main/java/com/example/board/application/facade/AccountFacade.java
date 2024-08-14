@@ -5,6 +5,8 @@ import com.example.board.application.dto.request.CreateAccountRequest;
 import com.example.board.application.dto.response.CanUseMemberIdResponse;
 import com.example.board.domain.member.entity.Member;
 import com.example.board.domain.member.service.MemberService;
+import com.example.board.global.exception.BaseException;
+import com.example.board.global.exception.ErrorCode;
 import com.example.board.global.jwt.JwtProvider;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,7 @@ public class AccountFacade {
 
         String memberId= createAccountRequest.getMemberId();
         if(memberService.existsByMemberId(memberId)){
-            throw new RuntimeException();
+            throw BaseException.from(ErrorCode.MEMBER_ALREADY_EXISTS);
         }
 
         Member member = createAccountRequest.toMember();
@@ -61,7 +63,7 @@ public class AccountFacade {
 
 
         if(!BCrypt.checkpw(password,databasePassword)){ //비밀번호가 일치하지 않으면
-            throw new RuntimeException();
+            throw BaseException.from(ErrorCode.INVALID_PASSWORD);
         }
         //여기서 jwt 발급이 필요함
         return jwtProvider.createAccessToken(member.getId());
