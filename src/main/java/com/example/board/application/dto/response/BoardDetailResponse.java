@@ -3,7 +3,10 @@ package com.example.board.application.dto.response;
 
 import com.example.board.domain.board.entity.Board;
 import com.example.board.domain.member.entity.Member;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -14,18 +17,30 @@ public class BoardDetailResponse {
     private String content;
     private  int  view;
     private LocalDateTime createdAt;
-    private String memberNickname;
-    private long memberId;
+
+    private MemberInBoardDetailResponse member;
+
+    @Getter
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    private static class MemberInBoardDetailResponse {
+        private final long id;
+        private final String nickName;
 
 
-    private BoardDetailResponse(String title, String content, int view, LocalDateTime createdAt, String memberNickname, long memberId) {
+        public static MemberInBoardDetailResponse from(Member member) {
+            return new MemberInBoardDetailResponse(member.getId(), member.getNickName());
+        }
+    }
+
+
+    private BoardDetailResponse(String title, String content, int view, LocalDateTime createdAt,MemberInBoardDetailResponse member) {
         this.title = title;
         this.content = content;
         this.view = view;
         this.createdAt = createdAt;
-        this.memberNickname = memberNickname;
-        this.memberId = memberId;
+        this.member = member;
     }
+
 
     public static BoardDetailResponse from(Board board) {
         String title = board.getTitle(); //제목 가져오기
@@ -34,9 +49,8 @@ public class BoardDetailResponse {
         int view=board.getView(); //조회수 늘려주기
         Member member = board.getMember(); //작성자 정보 가져오기
 
-        String nickname= member.getNickName();
-        long memberId = member.getId();
+        return new BoardDetailResponse(title, content, view, createdAt, MemberInBoardDetailResponse.from(member));
 
-         return new BoardDetailResponse(title, content, view, createdAt, nickname, memberId);
+        //TODO: CommentList 도 반환해야함.
     }
 }
