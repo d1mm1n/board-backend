@@ -8,12 +8,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 이거 추가해주면 알아서 매개변수 없는 생성자를 자동으로 만들어 줌, Protected로 해주면 jpa에서만 접근 가능
+@EntityListeners(AuditingEntityListener.class)
 public class Board {
 
     @Id
