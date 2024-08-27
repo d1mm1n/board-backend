@@ -30,18 +30,9 @@ public class BoardFacade {
         Board board = boardService.findById(id);
         boardService.increaseViewOnce(board);
 
-        String title = board.getTitle(); //제목 가져오기
-        String content = board.getContent(); // 작성 내용 가져오기
-        LocalDateTime createdAt = board.getCreatedAt(); //작성 일자 가져오기
-        int view=board.getView(); //조회수 늘려주기
-        Member member = board.getMember(); //작성자 정보 가져오기
 
-        String nickname= member.getNickName();
-        long memberId = member.getId();
 
-        return new BoardDetailResponse(
-                title,content,view,createdAt,nickname,memberId
-        );
+        return BoardDetailResponse.from(board);
     }
 
 }
