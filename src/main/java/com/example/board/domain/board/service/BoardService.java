@@ -25,4 +25,10 @@ public class BoardService {
     public void save(Board board){
         boardRepository.save(board);
     }
+    //조회수 증가 함수
+    public void increaseViewOnce(Board board){
+        int view = board.getView()+1;
+        board.setView(view);
+        boardRepository.save(board);
+    }
 }

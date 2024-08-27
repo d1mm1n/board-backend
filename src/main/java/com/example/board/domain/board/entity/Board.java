@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,6 +34,7 @@ public class Board {
     @Column(name="created_at",nullable = false)
     private LocalDateTime createdAt;
 
+    @Setter
     @ColumnDefault("0") // view의 기본 값을 0으로 설정, 추론을 못해서 string 으로 작성해줘야함 -> "0" 이렇게
     @Column(name="view",nullable = false)
     private int view;
