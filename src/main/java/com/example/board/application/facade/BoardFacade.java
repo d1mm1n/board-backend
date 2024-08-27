@@ -36,8 +36,11 @@ public class BoardFacade {
         int view=board.getView(); //조회수 늘려주기
         Member member = board.getMember(); //작성자 정보 가져오기
 
+        String nickname= member.getNickName();
+        long memberId = member.getId();
+
         return new BoardDetailResponse(
-                title,content,view,createdAt
+                title,content,view,createdAt,nickname,memberId
         );
     }
 
