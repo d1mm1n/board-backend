@@ -41,9 +41,11 @@ public class BoardDetailResponse {
     private static class CommentInBoardDetailResponse {
         private final long id;
         private final String content;
+        private final LocalDateTime createdAt;
+        private final MemberInBoardDetailResponse member;
 
         public static CommentInBoardDetailResponse from(Comment comment) {
-            return new CommentInBoardDetailResponse(comment.getId(), comment.getContent());
+            return new CommentInBoardDetailResponse(comment.getId(),comment.getContent(),comment.getCreatedAt(),MemberInBoardDetailResponse.from(comment.getMember()));
         }
     }
 
