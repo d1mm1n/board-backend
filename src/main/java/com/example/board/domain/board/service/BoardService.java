@@ -5,7 +5,10 @@ import com.example.board.global.exception.BaseException;
 import com.example.board.global.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED) //상속받은 애들만 생성자를 사용
@@ -30,5 +33,9 @@ public class BoardService {
         int view = board.getView()+1;
         board.setView(view);
         boardRepository.save(board);
+    }
+
+    public List<Board> findAll() {
+        return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 }
