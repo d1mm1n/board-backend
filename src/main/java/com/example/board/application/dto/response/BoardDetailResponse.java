@@ -2,6 +2,7 @@ package com.example.board.application.dto.response;
 
 
 import com.example.board.domain.board.entity.Board;
+import com.example.board.domain.comment.entity.Comment;
 import com.example.board.domain.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class BoardDetailResponse {
@@ -17,8 +20,9 @@ public class BoardDetailResponse {
     private String content;
     private  int  view;
     private LocalDateTime createdAt;
-
     private MemberInBoardDetailResponse member;
+
+    private List<CommentInBoardDetailResponse> commentList;
 
     @Getter
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,13 +36,24 @@ public class BoardDetailResponse {
         }
     }
 
+    @Getter
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    private static class CommentInBoardDetailResponse {
+        private final long id;
+        private final String content;
 
-    private BoardDetailResponse(String title, String content, int view, LocalDateTime createdAt,MemberInBoardDetailResponse member) {
+        public static CommentInBoardDetailResponse from(Comment comment) {
+            return new CommentInBoardDetailResponse(comment.getId(), comment.getContent());
+        }
+    }
+
+    private BoardDetailResponse(String title, String content, int view, LocalDateTime createdAt,MemberInBoardDetailResponse member, List<CommentInBoardDetailResponse> commentList) {
         this.title = title;
         this.content = content;
         this.view = view;
         this.createdAt = createdAt;
         this.member = member;
+        this.commentList = commentList;
     }
 
 
@@ -49,8 +64,16 @@ public class BoardDetailResponse {
         int view=board.getView(); //조회수 늘려주기
         Member member = board.getMember(); //작성자 정보 가져오기
 
-        return new BoardDetailResponse(title, content, view, createdAt, MemberInBoardDetailResponse.from(member));
+        List<Comment> commentList = board.getCommentList();
 
-        //TODO: CommentList 도 반환해야함.
+        List<CommentInBoardDetailResponse> commentInBoardDetailResponses = new ArrayList<>();
+        for(Comment comment : commentList) {
+            commentInBoardDetailResponses.add(CommentInBoardDetailResponse.from(comment));
+
+        }
+
+        return new BoardDetailResponse(title, content, view, createdAt, MemberInBoardDetailResponse.from(member),commentInBoardDetailResponses);
+
+
     }
 }
